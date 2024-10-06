@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Bicicletas</title>
+</head>
+<body>
+    <h1>Lista de Bicicletas</h1>
+    <a href="/add">Adicionar Bicicleta</a>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <table border="1">
+        <tr>
+            <th>Modelo</th>
+            <th>Categoria</th>
+            <th>Preço</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+        {% for bike in bikes %}
+        <tr>
+            <td>{{ bike.model }}</td>
+            <td>{{ bike.category }}</td>
+            <td>{{ bike.price }}</td>
+            <td>{{ bike.status }}</td>
+            <td>
+                {% if bike.status == 'Disponível' %}
+                    <a href="/sell/{{ bike.id }}">Marcar como Vendida</a>
+                    <a href="/remove/{{ bike.id }}">Remover</a>
+                {% else %}
+                    <a href="/bike/{{ bike.id }}">Visualizar</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
