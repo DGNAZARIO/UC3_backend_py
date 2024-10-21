@@ -2,15 +2,14 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes da Bicicleta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Detalhes da Bicicleta</h1>
-    <p><strong>Modelo:</strong> {{ bike.model }}</p>
-    <p><strong>Categoria:</strong> {{ bike.category }}</p>
-    <p><strong>Preço:</strong> R$ {{ bike.price }}</p>
-    <p><strong>Status:</strong> {{ bike.status }}</p>
-    <a href="/">Voltar</a>
+    <h1>{{ bike['model'] }}</h1>
+    <p>Categoria: {{ bike['category'] }}</p>
+    <p>Preço: R$ {{ bike['price'] }}</p>
+    <p>Status: {{ bike['status'] }}</p>
+    <a href="{{ url_for('index') }}">Voltar</a>
 </body>
 </html>

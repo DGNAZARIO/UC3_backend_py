@@ -2,22 +2,13 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Bicicletas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <h1>Lista de Bicicletas</h1>
-    <a href="/add">Adicionar Bicicleta</a>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    <table border="1">
+    <a href="{{ url_for('add_bike') }}">Adicionar Bicicleta</a>
+    <table>
         <tr>
             <th>Modelo</th>
             <th>Categoria</th>
@@ -27,17 +18,14 @@
         </tr>
         {% for bike in bikes %}
         <tr>
-            <td>{{ bike.model }}</td>
-            <td>{{ bike.category }}</td>
-            <td>{{ bike.price }}</td>
-            <td>{{ bike.status }}</td>
+            <td>{{ bike['model'] }}</td>
+            <td>{{ bike['category'] }}</td>
+            <td>R$ {{ bike['price'] }}</td>
+            <td>{{ bike['status'] }}</td>
             <td>
-                {% if bike.status == 'Disponível' %}
-                    <a href="/sell/{{ bike.id }}">Marcar como Vendida</a>
-                    <a href="/remove/{{ bike.id }}">Remover</a>
-                {% else %}
-                    <a href="/bike/{{ bike.id }}">Visualizar</a>
-                {% endif %}
+                <a href="{{ url_for('sell_bike', bike_id=bike['id']) }}">Marcar como Vendida</a>
+                <a href="{{ url_for('remove_bike', bike_id=bike['id']) }}">Remover</a>
+                <a href="{{ url_for('view_bike', bike_id=bike['id']) }}">Ver</a>
             </td>
         </tr>
         {% endfor %}
