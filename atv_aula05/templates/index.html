@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Loja de Bicicletas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function validatePrice() {
+            var price = document.getElementsByName('price')[0].value;
+            if (price < 100) {
+                alert('O preço deve ser no mínimo R$ 100,00!');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo da Loja" style="width: 150px;">
+    <h1>Estoque de Bicicletas</h1>
+    <form action="{{ url_for('bike.add_bike') }}" method="post" onsubmit="return validatePrice()">
+        <input type="text" name="model" placeholder="Modelo" required>
+        <input type="text" name="category" placeholder="Categoria" required>
+        <input type="number" name="price" placeholder="Preço" required>
+        <button type="submit">Adicionar Bicicleta</button>
+    </form>
+    <ul>
+        {% for bike in bikes %}
+            <li>
+                {{ bike.model }} - {{ bike.category }} - R$ {{ bike.price }} - {{ bike.status }}
+                {% if bike.status == 'Disponível' %}
+                    <form action="{{ url_for('bike.sell_bike', bike_id=bike.id) }}" method="post" style="display:inline;">
+                        <button type="submit">Marcar como Vendida</button>
+                    </form>
+                    <form action="{{ url_for('bike.delete_bike', bike_id=bike.id) }}" method="post" style="display:inline;">
+                        <button type="submit">Remover</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>Total de vendas: R$ {{ total_price }}</h2>
+</body>
+</html>
